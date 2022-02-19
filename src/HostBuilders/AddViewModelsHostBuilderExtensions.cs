@@ -10,10 +10,11 @@ public static class AddViewModelsHostBuilderExtensions
 
     public static IHostBuilder AddViewModels(this IHostBuilder hostBuilder)
     {
-        hostBuilder.ConfigureServices(services =>
-        {
-            services.AddTransient<MainWindowViewModel>();
-        });
+        hostBuilder.ConfigureServices(
+            services =>
+            {
+                services.AddSingleton<MainWindowViewModel>();
+            });
 
         return hostBuilder;
     }

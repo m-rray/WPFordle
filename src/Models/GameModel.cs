@@ -1,5 +1,8 @@
 ﻿namespace WPFordle.Models;
 
+using Enums;
+using Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,22 +11,28 @@ public class GameModel : ObservableModel
 {
     #region Fields
 
+    private readonly IGuessValidationService _guessValidationService;
+    private readonly IWordService _wordService;
     private int _currentGuessIndex;
-
     private int _currentLetterIndex;
-
     private bool _gameOver;
-
     private bool _isCommittingGuess;
 
     #endregion
 
     #region Constructors
 
-    public GameModel(WordModel targetWord)
+    public GameModel(WordModel targetWord, IGuessValidationService guessValidationService, IWordService wordService)
     {
+        ArgumentNullException.ThrowIfNull(guessValidationService);
+        ArgumentNullException.ThrowIfNull(wordService);
+
+        this._guessValidationService = guessValidationService;
+        this._wordService = wordService;
         this.TargetWord = targetWord;
-        this.Guesses = Enumerable.Range(0, Constants.MaximumGuesses).Select(x => new WordModel()).ToList();
+        this.Guesses = Enumerable.Range(0, Constants.MaximumGuesses)
+            .Select(x => new WordModel(targetWord.Letters.Count))
+            .ToList();
     }
 
     #endregion
@@ -50,7 +59,7 @@ public class GameModel : ObservableModel
             return false;
         }
 
-        if (this._currentLetterIndex == Constants.WordLength)
+        if (this._currentLetterIndex == this.TargetWord.Letters.Count)
         {
             return false;
         }
@@ -88,42 +97,65 @@ public class GameModel : ObservableModel
         return true;
     }
 
-    public async Task<(bool, GuessResult)> TryCommitGuessAsync()
+    public async Task<GuessResult?> CommitGuess()
     {
+        if (this._gameOver)
+        {
+            return null;
+        }
+
         if (this._isCommittingGuess)
         {
-            return (false, default);
+            return null;
         }
 
         this._isCommittingGuess = true;
 
         try
         {
-            if (this._gameOver)
+            if (this._currentLetterIndex != this.TargetWord.Letters.Count)
             {
-                return (false, default);
-            }
-
-            if (this._currentLetterIndex != Constants.WordLength)
-            {
-                return (false, default);
+                return new GuessResult
+                {
+                    Success = false,
+                    Validated = false,
+                    Message = "Not enough letters"
+                };
             }
 
             WordModel currentGuess = this.Guesses.ElementAt(this._currentGuessIndex);
-            await currentGuess.ValidateAsync(this.TargetWord);
+            string currentWord = string.Join(null, currentGuess.Letters.Select(x => x.Character));
+            bool isRecognizedWord = await this._wordService.IsRecognizedWordAsync(currentWord);
+            if (!isRecognizedWord)
+            {
+                return new GuessResult
+                {
+                    Success = false,
+                    Validated = false,
+                    Message = "Not in word list",
+                    GuessedWord = currentGuess
+                };
+            }
+
+            await this._guessValidationService.ValidateGuessAsync(currentGuess, this.TargetWord);
             this._currentGuessIndex++;
             this._currentLetterIndex = 0;
 
-            GuessResult guessResult = currentGuess.Letters.All(x => x.Result == LetterResult.RightLetterRightPlace)
-                ? GuessResult.Correct
-                : GuessResult.Incorrect;
+            bool success = currentGuess.Letters.All(x => x.Result == LetterResult.RightLetterRightPlace);
+            GuessResult guessResult = new()
+            {
+                Success = success,
+                Validated = true,
+                Message = success ? "Genius" : null,
+                GuessedWord = currentGuess
+            };
 
-            if (guessResult == GuessResult.Correct || this._currentGuessIndex == Constants.MaximumGuesses)
+            if (guessResult.Success || this._currentGuessIndex == Constants.MaximumGuesses)
             {
                 this._gameOver = true;
             }
 
-            return (true, guessResult);
+            return guessResult;
         }
         finally
         {

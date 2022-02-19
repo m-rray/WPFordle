@@ -19,7 +19,9 @@ public abstract class ObservableViewModel<T> : ObservableObject, IDisposable
 
     protected ObservableViewModel(T model, bool forwardPropertyChanged = true)
     {
-        this.Model = model ?? throw new ArgumentNullException(nameof(model));
+        ArgumentNullException.ThrowIfNull(model);
+
+        this.Model = model;
         this._forwardModelPropertyChanges = forwardPropertyChanged;
 
         model.PropertyChanged += this.OnModelPropertyChanged;

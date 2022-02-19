@@ -1,4 +1,4 @@
-﻿namespace WPFordle.Models;
+﻿namespace WPFordle.Models.Enums;
 
 public enum LetterResult
 {

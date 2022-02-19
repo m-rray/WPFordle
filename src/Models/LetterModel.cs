@@ -1,14 +1,11 @@
 ﻿namespace WPFordle.Models;
 
 using CommunityToolkit.Mvvm.ComponentModel;
-using System.Collections.Generic;
-using System.Linq;
+using Enums;
 
 public partial class LetterModel : ObservableModel
 {
     #region Fields
-
-    private readonly int _index;
 
     [ObservableProperty]
     private char? _character;
@@ -20,31 +17,13 @@ public partial class LetterModel : ObservableModel
 
     #region Constructors
 
-    public LetterModel(int index)
+    public LetterModel()
     {
-        this._index = index;
     }
 
-    #endregion
-
-    #region Methods
-
-    public void Validate(WordModel targetWord)
+    public LetterModel(char character)
     {
-        List<LetterModel> matchingLetters = targetWord.Letters.Where(x => x.Character == this.Character).ToList();
-
-        if (!matchingLetters.Any())
-        {
-            this.Result = LetterResult.WrongLetter;
-        }
-        else if (matchingLetters.Any(x => x._index == this._index))
-        {
-            this.Result = LetterResult.RightLetterRightPlace;
-        }
-        else
-        {
-            this.Result = LetterResult.RightLetterWrongPlace;
-        }
+        this._character = character;
     }
 
     #endregion

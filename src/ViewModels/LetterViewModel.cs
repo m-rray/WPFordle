@@ -1,6 +1,7 @@
 ﻿namespace WPFordle.ViewModels;
 
 using Models;
+using Models.Enums;
 
 public class LetterViewModel : ObservableViewModel<LetterModel>
 {
