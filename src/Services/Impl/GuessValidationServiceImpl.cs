@@ -57,11 +57,7 @@ public class GuessValidationServiceImpl : IGuessValidationService
         foreach ((LetterModel, LetterState) letterResult in letterResults)
         {
             letterResult.Item1.State = letterResult.Item2;
-
-            if (letterResult != letterResults.Last())
-            {
-                await Task.Delay(Constants.TimeBetweenReveals);
-            }
+            await Task.Delay(Constants.TimeBetweenReveals);
         }
 
         //for (int i = 0; i < guess.Letters.Count; i++)
