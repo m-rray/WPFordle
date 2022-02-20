@@ -18,7 +18,7 @@ public class LetterViewModel : ObservableViewModel<LetterModel>
 
     public char? Character => this.Model.Character;
 
-    public LetterResult Result => this.Model.Result;
+    public LetterState State => this.Model.State;
 
     #endregion
 }

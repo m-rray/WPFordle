@@ -1,5 +1,7 @@
 ﻿namespace WPFordle;
 
+using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.Messaging;
 using HostBuilders;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -31,7 +33,7 @@ public partial class App : Application
                 (host, services) =>
                 {
                     services.AddSingleton<IThemeService, ThemeServiceImpl>();
-                    services.AddSingleton<IMessageService, MessageServiceImpl>();
+                    services.AddSingleton<IMessenger>(_ => WeakReferenceMessenger.Default);
                     services.AddSingleton<IGuessValidationService, GuessValidationServiceImpl>();
                     services.AddSingleton<IWordService, WordServiceImpl>();
                 })

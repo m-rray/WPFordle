@@ -1,6 +1,6 @@
 ﻿namespace WPFordle.Models.Enums;
 
-public enum LetterResult
+public enum LetterState
 {
     None,
     RightLetterRightPlace,

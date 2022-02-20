@@ -1,0 +1,160 @@
+﻿<UserControl
+    x:Class="WPFordle.Views.HowToPlayView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:WPFordle.Views.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:WPFordle.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <StackPanel Orientation="Vertical">
+        <TextBlock
+            Margin="2,20"
+            HorizontalAlignment="Left"
+            DockPanel.Dock="Bottom"
+            FontSize="14"
+            Foreground="{DynamicResource TextForegroundKey}"
+            TextWrapping="Wrap">
+            Guess the&#160;<Bold>WORDLE</Bold>
+            in six tries.<LineBreak /><LineBreak />
+            Each guess must be a valid five-letter word. Hit the enter button to submit.<LineBreak /><LineBreak />
+            After each guess, the color of the tiles will change to show how close your guess was to the word.</TextBlock>
+        <Rectangle
+            Height="1"
+            HorizontalAlignment="Stretch"
+            Fill="{DynamicResource EmptyLetterBorderBrushKey}" />
+        <TextBlock
+            Margin="2,20"
+            HorizontalAlignment="Left"
+            FontSize="14"
+            FontWeight="Bold"
+            Foreground="{DynamicResource TextForegroundKey}"
+            Text="Examples"
+            TextWrapping="Wrap" />
+        <StackPanel Orientation="Horizontal">
+            <controls:Letter
+                x:Name="CorrectLetter"
+                Width="46"
+                Height="46"
+                Margin="2,0"
+                Character="W" />
+            <controls:Letter
+                Width="46"
+                Height="46"
+                Margin="2,0"
+                Character="E" />
+            <controls:Letter
+                Width="46"
+                Height="46"
+                Margin="2,0"
+                Character="A" />
+            <controls:Letter
+                Width="46"
+                Height="46"
+                Margin="2,0"
+                Character="R" />
+            <controls:Letter
+                Width="46"
+                Height="46"
+                Margin="2,0"
+                Character="Y" />
+        </StackPanel>
+        <TextBlock
+            Margin="2,10,2,0"
+            HorizontalAlignment="Left"
+            DockPanel.Dock="Bottom"
+            FontSize="14"
+            Foreground="{DynamicResource TextForegroundKey}"
+            TextWrapping="Wrap">
+            The letter&#160;<Bold>W</Bold>
+            is in the word and in the correct spot.</TextBlock>
+        <StackPanel Margin="0,20,0,0" Orientation="Horizontal">
+            <controls:Letter
+                Width="46"
+                Height="46"
+                Margin="2,0"
+                Character="P" />
+            <controls:Letter
+                x:Name="IndeterminateLetter"
+                Width="46"
+                Height="46"
+                Margin="2,0"
+                Character="I" />
+            <controls:Letter
+                Width="46"
+                Height="46"
+                Margin="2,0"
+                Character="L" />
+            <controls:Letter
+                Width="46"
+                Height="46"
+                Margin="2,0"
+                Character="L" />
+            <controls:Letter
+                Width="46"
+                Height="46"
+                Margin="2,0"
+                Character="S" />
+        </StackPanel>
+        <TextBlock
+            Margin="0,10,0,0"
+            HorizontalAlignment="Left"
+            DockPanel.Dock="Bottom"
+            FontSize="14"
+            Foreground="{DynamicResource TextForegroundKey}"
+            TextWrapping="Wrap">
+            The letter&#160;<Bold>I</Bold>
+            is in the word but in the wrong spot.</TextBlock>
+        <StackPanel Margin="0,20,0,0" Orientation="Horizontal">
+            <controls:Letter
+                Width="46"
+                Height="46"
+                Margin="2,0"
+                Character="V" />
+            <controls:Letter
+                Width="46"
+                Height="46"
+                Margin="2,0"
+                Character="A" />
+            <controls:Letter
+                Width="46"
+                Height="46"
+                Margin="2,0"
+                Character="G" />
+            <controls:Letter
+                x:Name="WrongLetter"
+                Width="46"
+                Height="46"
+                Margin="2,0"
+                Character="U" />
+            <controls:Letter
+                Width="46"
+                Height="46"
+                Margin="2,0"
+                Character="E" />
+        </StackPanel>
+        <TextBlock
+            Margin="0,10,0,30"
+            HorizontalAlignment="Left"
+            DockPanel.Dock="Bottom"
+            FontSize="14"
+            Foreground="{DynamicResource TextForegroundKey}"
+            TextWrapping="Wrap">
+            The letter&#160;<Bold>U</Bold>
+            is not in the word in any spot.</TextBlock>
+        <Rectangle
+            Height="1"
+            HorizontalAlignment="Stretch"
+            Fill="{DynamicResource EmptyLetterBorderBrushKey}" />
+        <TextBlock
+            Margin="2,20"
+            HorizontalAlignment="Left"
+            FontSize="14"
+            FontWeight="Bold"
+            Foreground="{DynamicResource TextForegroundKey}"
+            Text="A new WORDLE will be available each day!"
+            TextWrapping="Wrap" />
+    </StackPanel>
+</UserControl>

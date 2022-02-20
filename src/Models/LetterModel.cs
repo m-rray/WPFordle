@@ -11,7 +11,7 @@ public partial class LetterModel : ObservableModel
     private char? _character;
 
     [ObservableProperty]
-    private LetterResult _result;
+    private LetterState _state;
 
     #endregion
 

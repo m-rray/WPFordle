@@ -13,7 +13,7 @@ public class GuessValidationServiceImpl : IGuessValidationService
     public async Task ValidateGuessAsync(WordModel guess, WordModel target)
     {
         // TODO: This really need reworking totally, ive had to temp hack some new logic in here as i found a bug
-        (LetterModel, LetterResult)[] letterResults = new (LetterModel, LetterResult)[guess.Letters.Count];
+        (LetterModel, LetterState)[] letterResults = new (LetterModel, LetterState)[guess.Letters.Count];
         
         List<LetterModel> matchedGuessLetters = new();
         List<LetterModel> matchedTargetLetters = new();
@@ -26,7 +26,7 @@ public class GuessValidationServiceImpl : IGuessValidationService
 
             if (letter.Character == targetLetter.Character)
             {
-                letterResults[i] = (letter, LetterResult.RightLetterRightPlace);
+                letterResults[i] = (letter, LetterState.RightLetterRightPlace);
                 matchedGuessLetters.Add(letter);
                 matchedTargetLetters.Add(targetLetter);
             }
@@ -44,19 +44,19 @@ public class GuessValidationServiceImpl : IGuessValidationService
             LetterModel? partialMatch = target.Letters.Except(matchedTargetLetters).FirstOrDefault(x => x.Character == letter.Character);
             if (partialMatch != null)
             {
-                letterResults[i] = (letter, LetterResult.RightLetterWrongPlace);
+                letterResults[i] = (letter, LetterState.RightLetterWrongPlace);
                 matchedGuessLetters.Add(letter);
                 matchedTargetLetters.Add(partialMatch);
             }
             else
             {
-                letterResults[i] = (letter, LetterResult.WrongLetter);
+                letterResults[i] = (letter, LetterState.WrongLetter);
             }
         }
 
-        foreach ((LetterModel, LetterResult) letterResult in letterResults)
+        foreach ((LetterModel, LetterState) letterResult in letterResults)
         {
-            letterResult.Item1.Result = letterResult.Item2;
+            letterResult.Item1.State = letterResult.Item2;
 
             if (letterResult != letterResults.Last())
             {
@@ -68,7 +68,7 @@ public class GuessValidationServiceImpl : IGuessValidationService
         //{
         //    LetterModel letter = guess.Letters.ElementAt(i);
 
-        //    LetterResult letterResult = LetterResult.WrongLetter;
+        //    LetterState letterState = LetterState.WrongLetter;
         //    for (int j = 0; j < target.Letters.Count; j++)
         //    {
         //        LetterModel targetLetter = target.Letters.ElementAt(j);
@@ -76,15 +76,15 @@ public class GuessValidationServiceImpl : IGuessValidationService
         //        {
         //            if (i == j)
         //            {
-        //                letterResult = LetterResult.RightLetterRightPlace;
+        //                letterState = LetterState.RightLetterRightPlace;
         //                break;
         //            }
 
-        //            letterResult = LetterResult.RightLetterWrongPlace;
+        //            letterState = LetterState.RightLetterWrongPlace;
         //        }
         //    }
 
-        //    letter.Result = letterResult;
+        //    letter.State = letterState;
 
         //    if (i < guess.Letters.Count - 1)
         //    {

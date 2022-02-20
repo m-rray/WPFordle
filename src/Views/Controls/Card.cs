@@ -3,31 +3,31 @@
 using System.Windows;
 using System.Windows.Controls;
 
-public class CardControl : Control
+public class Card : Control
 {
     #region Fields
 
     public static readonly DependencyProperty TextProperty = DependencyProperty.Register(
         nameof(Text),
         typeof(string),
-        typeof(CardControl),
+        typeof(Card),
         new PropertyMetadata());
 
     public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register(
         nameof(CornerRadius),
         typeof(CornerRadius),
-        typeof(CardControl),
+        typeof(Card),
         new PropertyMetadata());
 
     #endregion
 
     #region Constructors
 
-    static CardControl()
+    static Card()
     {
         DefaultStyleKeyProperty.OverrideMetadata(
-            typeof(CardControl),
-            new FrameworkPropertyMetadata(typeof(CardControl)));
+            typeof(Card),
+            new FrameworkPropertyMetadata(typeof(Card)));
     }
 
     #endregion

@@ -6,7 +6,7 @@ public static class Constants
 
     public const int MaximumGuesses = 6;
 
-    public const int TimeBetweenReveals = 500;
+    public const int TimeBetweenReveals = 300;
 
     #endregion
 }

@@ -141,7 +141,7 @@ public class GameModel : ObservableModel
             this._currentGuessIndex++;
             this._currentLetterIndex = 0;
 
-            bool success = currentGuess.Letters.All(x => x.Result == LetterResult.RightLetterRightPlace);
+            bool success = currentGuess.Letters.All(x => x.State == LetterState.RightLetterRightPlace);
             GuessResult guessResult = new()
             {
                 Success = success,

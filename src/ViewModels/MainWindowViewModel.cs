@@ -2,6 +2,8 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
+using Messages.Push;
 using Models;
 using Models.Enums;
 using Services;
@@ -14,7 +16,7 @@ public partial class MainWindowViewModel : ObservableObject
 {
     #region Fields
 
-    private readonly IMessageService _messageService;
+    private readonly IMessenger _messenger;
 
     [ObservableProperty]
     private GameViewModel? _game;
@@ -23,12 +25,12 @@ public partial class MainWindowViewModel : ObservableObject
 
     #region Constructors
 
-    public MainWindowViewModel(IMessageService messageService, IThemeService themeService)
+    public MainWindowViewModel(IMessenger messenger, IThemeService themeService)
     {
-        ArgumentNullException.ThrowIfNull(messageService);
+        ArgumentNullException.ThrowIfNull(messenger);
         ArgumentNullException.ThrowIfNull(themeService);
 
-        this._messageService = messageService;
+        this._messenger = messenger;
 
         this.Keyboard = new KeyboardViewModel(
             this.InputCharacterCommand,
@@ -67,14 +69,14 @@ public partial class MainWindowViewModel : ObservableObject
 
         if (!string.IsNullOrWhiteSpace(guess.Message))
         {
-            this._messageService.FireMessage(guess.Message);
+            this._messenger.Send(new PushAlertMessage(guess.Message));
         }
 
         if (guess.Validated && guess.GuessedWord != null)
         {
             foreach (LetterModel guessedWordLetter in guess.GuessedWord.Letters)
             {
-                this.Keyboard.UpdateLetterResult(guessedWordLetter.Character.Value, guessedWordLetter.Result);
+                this.Keyboard.UpdateLetterResult(guessedWordLetter.Character.Value, guessedWordLetter.State);
             }
         }
     }
@@ -176,13 +178,13 @@ public class KeyboardViewModel : ObservableObject
 
     #region Methods
 
-    public void UpdateLetterResult(char character, LetterResult letterResult)
+    public void UpdateLetterResult(char character, LetterState letterState)
     {
         LetterKeyViewModel? match = this.Keys.SelectMany(x => x)
             .OfType<LetterKeyViewModel>()
             .FirstOrDefault(x => x.Character == character);
 
-        match?.UpdateLetterResult(letterResult);
+        match?.UpdateLetterResult(letterState);
     }
 
     #endregion
@@ -193,7 +195,7 @@ public abstract partial class KeyViewModelBase : ObservableObject
     #region Fields
 
     [ObservableProperty]
-    private LetterResult _letterResult;
+    private LetterState _letterState;
 
     #endregion
 }
@@ -256,20 +258,20 @@ public class LetterKeyViewModel : KeyViewModelBase
 
     #region Methods
 
-    public void UpdateLetterResult(LetterResult letterResult)
+    public void UpdateLetterResult(LetterState letterState)
     {
-        if (letterResult is LetterResult.None or LetterResult.WrongLetter)
+        if (letterState is LetterState.None or LetterState.WrongLetter)
         {
-            this.LetterResult = letterResult;
+            this.LetterState = letterState;
         }
-        else if (letterResult == LetterResult.RightLetterWrongPlace
-                 && this.LetterResult != LetterResult.RightLetterRightPlace)
+        else if (letterState == LetterState.RightLetterWrongPlace
+                 && this.LetterState != LetterState.RightLetterRightPlace)
         {
-            this.LetterResult = letterResult;
+            this.LetterState = letterState;
         }
         else
         {
-            this.LetterResult = letterResult;
+            this.LetterState = letterState;
         }
     }
 

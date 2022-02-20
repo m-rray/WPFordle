@@ -3,7 +3,8 @@
     <SolidColorBrush x:Key="TextForegroundKey" Color="#000000" />
     <SolidColorBrush x:Key="KeyBackgroundKey" Color="#d4d6da" />
     <SolidColorBrush x:Key="KeyTextForegroundKey" Color="#000000" />
-    <SolidColorBrush x:Key="LetterBorderBrushKey" Color="#d4d6da" />
+    <SolidColorBrush x:Key="LetterBorderBrushKey" Color="#888a8c" />
+    <SolidColorBrush x:Key="EmptyLetterBorderBrushKey" Color="#d4d6da" />
     <SolidColorBrush x:Key="GuessedTextForegroundKey" Color="#ffffff" />
     <SolidColorBrush x:Key="CorrectGuessKey" Color="#e5804a" />
     <SolidColorBrush x:Key="IndeterminateGuessKey" Color="#92bef4" />
