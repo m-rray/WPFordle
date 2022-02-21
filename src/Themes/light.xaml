@@ -1,0 +1,14 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <SolidColorBrush x:Key="WindowBackgroundKey" Color="#ffffff" />
+    <SolidColorBrush x:Key="TextForegroundKey" Color="#000000" />
+    <SolidColorBrush x:Key="KeyBackgroundKey" Color="#d4d6da" />
+    <SolidColorBrush x:Key="KeyTextForegroundKey" Color="#000000" />
+    <SolidColorBrush x:Key="LetterBorderBrushKey" Color="#888a8c" />
+    <SolidColorBrush x:Key="EmptyLetterBorderBrushKey" Color="#d4d6da" />
+    <SolidColorBrush x:Key="GuessedTextForegroundKey" Color="#ffffff" />
+    <SolidColorBrush x:Key="CorrectGuessKey" Color="#618c55" />
+    <SolidColorBrush x:Key="IndeterminateGuessKey" Color="#b1a04c" />
+    <SolidColorBrush x:Key="IncorrectGuessKey" Color="#797c7e" />
+    <SolidColorBrush x:Key="CardBackgroundKey" Color="#000000" />
+    <SolidColorBrush x:Key="CardTextForegroundKey" Color="#ffffff" />
+</ResourceDictionary>
