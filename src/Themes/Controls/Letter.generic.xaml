@@ -32,12 +32,10 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="Character" Value="{x:Null}">
-                            <Setter TargetName="PART_Border" Property="BorderBrush"
-                                    Value="{DynamicResource EmptyLetterBorderBrushKey}" />
+                            <Setter TargetName="PART_Border" Property="BorderBrush" Value="{DynamicResource EmptyLetterBorderBrushKey}" />
                             <Trigger.ExitActions>
                                 <BeginStoryboard>
-                                    <Storyboard TargetProperty="RenderTransform.(ScaleTransform.ScaleX)"
-                                                TargetName="PART_Border">
+                                    <Storyboard TargetProperty="RenderTransform.(ScaleTransform.ScaleX)" TargetName="PART_Border">
                                         <DoubleAnimation
                                             AutoReverse="True"
                                             To="1.15"
@@ -45,8 +43,7 @@
                                     </Storyboard>
                                 </BeginStoryboard>
                                 <BeginStoryboard>
-                                    <Storyboard TargetProperty="RenderTransform.(ScaleTransform.ScaleY)"
-                                                TargetName="PART_Border">
+                                    <Storyboard TargetProperty="RenderTransform.(ScaleTransform.ScaleY)" TargetName="PART_Border">
                                         <DoubleAnimation
                                             AutoReverse="True"
                                             To="1.15"

@@ -19,8 +19,7 @@
             Guess the&#160;<Bold>WORDLE</Bold>
             in six tries.<LineBreak /><LineBreak />
             Each guess must be a valid five-letter word. Hit the enter button to submit.<LineBreak /><LineBreak />
-            After each guess, the color of the tiles will change to show how close your guess was to the word.
-        </TextBlock>
+            After each guess, the color of the tiles will change to show how close your guess was to the word.</TextBlock>
         <Rectangle
             Height="1"
             HorizontalAlignment="Stretch"
@@ -69,8 +68,7 @@
             Foreground="{DynamicResource TextForegroundKey}"
             TextWrapping="Wrap">
             The letter&#160;<Bold>W</Bold>
-            is in the word and in the correct spot.
-        </TextBlock>
+            is in the word and in the correct spot.</TextBlock>
         <StackPanel Margin="0,20,0,0" Orientation="Horizontal">
             <controls:Letter
                 Width="46"
@@ -107,8 +105,7 @@
             Foreground="{DynamicResource TextForegroundKey}"
             TextWrapping="Wrap">
             The letter&#160;<Bold>I</Bold>
-            is in the word but in the wrong spot.
-        </TextBlock>
+            is in the word but in the wrong spot.</TextBlock>
         <StackPanel Margin="0,20,0,0" Orientation="Horizontal">
             <controls:Letter
                 Width="46"
@@ -145,8 +142,7 @@
             Foreground="{DynamicResource TextForegroundKey}"
             TextWrapping="Wrap">
             The letter&#160;<Bold>U</Bold>
-            is not in the word in any spot.
-        </TextBlock>
+            is not in the word in any spot.</TextBlock>
         <Rectangle
             Height="1"
             HorizontalAlignment="Stretch"

@@ -14,8 +14,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type controls:Layer}">
-                    <Grid HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
-                          Background="{TemplateBinding Background}">
+                    <Grid HorizontalAlignment="{TemplateBinding HorizontalAlignment}" Background="{TemplateBinding Background}">
                         <DockPanel MaxWidth="{TemplateBinding MaxInnerWidth}" HorizontalAlignment="Stretch">
                             <DockPanel Margin="0,8" DockPanel.Dock="Top">
                                 <Button
@@ -27,9 +26,7 @@
                                     Style="{StaticResource CommandButton}">
                                     <Viewbox Width="22" Height="22">
                                         <Canvas Width="24" Height="24">
-                                            <Path
-                                                Data="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"
-                                                Fill="{DynamicResource KeyTextForegroundKey}" />
+                                            <Path Data="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" Fill="{DynamicResource KeyTextForegroundKey}" />
                                         </Canvas>
                                     </Viewbox>
                                 </Button>
@@ -42,8 +39,7 @@
                                     Text="HOW TO PLAY" />
                             </DockPanel>
                             <ScrollViewer VerticalScrollBarVisibility="Auto">
-                                <ContentPresenter Margin="{TemplateBinding Padding}"
-                                                  Content="{TemplateBinding Content}" />
+                                <ContentPresenter Margin="{TemplateBinding Padding}" Content="{TemplateBinding Content}" />
                             </ScrollViewer>
                         </DockPanel>
                     </Grid>

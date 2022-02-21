@@ -12,30 +12,25 @@
     d:DesignWidth="800"
     views:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
-    <Grid>
-        <ItemsControl
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            ItemsSource="{Binding Guesses}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <ItemsControl ItemsSource="{Binding Letters}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel Orientation="Horizontal" />
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <controls:Letter
-                                    Margin="3"
-                                    Character="{Binding Character}"
-                                    State="{Binding State}" />
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
-    </Grid>
+    <ItemsControl ItemsSource="{Binding Guesses}">
+        <ItemsControl.ItemTemplate>
+            <DataTemplate>
+                <ItemsControl ItemsSource="{Binding Letters}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <controls:Letter
+                                Margin="3"
+                                Character="{Binding Character}"
+                                State="{Binding State}" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </DataTemplate>
+        </ItemsControl.ItemTemplate>
+    </ItemsControl>
 </UserControl>
