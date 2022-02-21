@@ -24,9 +24,9 @@ public interface IThemeService
 
     #region Methods
 
-    void SetThemeSettings(bool dark, bool highContrast);
-
     Theme GetCurrentTheme();
+
+    void SetThemeSettings(bool dark, bool highContrast);
 
     #endregion
 }

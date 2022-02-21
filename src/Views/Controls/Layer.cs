@@ -8,11 +8,12 @@ public class Layer : ContentControl
 {
     #region Fields
 
-    public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(
-        nameof(Title),
-        typeof(string),
-        typeof(Layer),
-        new PropertyMetadata());
+    public static readonly RoutedEvent CloseRequestedEvent =
+        EventManager.RegisterRoutedEvent(
+            nameof(CloseRequested),
+            RoutingStrategy.Bubble,
+            typeof(EventHandler<RoutedEventArgs>),
+            typeof(Layer));
 
     public static readonly DependencyProperty MaxInnerWidthProperty = DependencyProperty.Register(
         nameof(MaxInnerWidth),
@@ -20,8 +21,11 @@ public class Layer : ContentControl
         typeof(Layer),
         new PropertyMetadata());
 
-    public static readonly RoutedEvent CloseRequestedEvent =
-        EventManager.RegisterRoutedEvent(nameof(CloseRequested), RoutingStrategy.Bubble, typeof(EventHandler<RoutedEventArgs>), typeof(Layer));
+    public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(
+        nameof(Title),
+        typeof(string),
+        typeof(Layer),
+        new PropertyMetadata());
 
     private Button? _closeButton;
 
@@ -50,19 +54,21 @@ public class Layer : ContentControl
 
     #region Properties
 
-    public string Title
-    {
-        get => (string)this.GetValue(TitleProperty);
-        set => this.SetValue(TitleProperty, value);
-    }
-
     public double MaxInnerWidth
     {
         get => (double)this.GetValue(MaxInnerWidthProperty);
         set => this.SetValue(MaxInnerWidthProperty, value);
     }
 
+    public string Title
+    {
+        get => (string)this.GetValue(TitleProperty);
+        set => this.SetValue(TitleProperty, value);
+    }
+
     #endregion
+
+    #region Methods
 
     public override void OnApplyTemplate()
     {
@@ -70,7 +76,7 @@ public class Layer : ContentControl
         {
             this._closeButton.Click -= this.OnCloseButtonClick;
         }
-        
+
         this._closeButton = this.GetTemplateChild("PART_CloseButton") as Button;
         this._closeButton.Click += this.OnCloseButtonClick;
 
@@ -81,4 +87,6 @@ public class Layer : ContentControl
     {
         this.RaiseEvent(new RoutedEventArgs(CloseRequestedEvent, this));
     }
+
+    #endregion
 }

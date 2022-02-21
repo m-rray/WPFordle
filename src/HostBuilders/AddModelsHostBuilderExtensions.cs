@@ -2,18 +2,18 @@
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Views;
+using Models;
 
-public static class AddViewsHostBuilderExtensions
+public static class AddModelsHostBuilderExtensions
 {
     #region Methods
 
-    public static IHostBuilder AddViews(this IHostBuilder hostBuilder)
+    public static IHostBuilder AddModels(this IHostBuilder hostBuilder)
     {
         hostBuilder.ConfigureServices(
             services =>
             {
-                services.AddScoped<MainWindow>();
+                services.AddScoped<GameModel>();
             });
 
         return hostBuilder;

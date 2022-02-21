@@ -1,4 +1,5 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Style x:Key="KeyboardKey" TargetType="{x:Type Button}">
         <Setter Property="OverridesDefaultStyle" Value="True" />
@@ -91,21 +92,24 @@
                         <Trigger Property="IsChecked" Value="True">
                             <Trigger.ExitActions>
                                 <BeginStoryboard>
-                                    <Storyboard TargetProperty="RenderTransform.(TranslateTransform.X)" TargetName="PART_Slider">
+                                    <Storyboard TargetProperty="RenderTransform.(TranslateTransform.X)"
+                                                TargetName="PART_Slider">
                                         <DoubleAnimation To="-6" Duration="0:0:0.2" />
                                     </Storyboard>
                                 </BeginStoryboard>
                             </Trigger.ExitActions>
                             <Trigger.EnterActions>
                                 <BeginStoryboard>
-                                    <Storyboard TargetProperty="RenderTransform.(TranslateTransform.X)" TargetName="PART_Slider">
+                                    <Storyboard TargetProperty="RenderTransform.(TranslateTransform.X)"
+                                                TargetName="PART_Slider">
                                         <DoubleAnimation To="6" Duration="0:0:0.2" />
                                     </Storyboard>
                                 </BeginStoryboard>
                             </Trigger.EnterActions>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                            <Setter Property="Foreground"
+                                    Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
                         </Trigger>
                         <Trigger Property="IsChecked" Value="True">
                             <Setter Property="Background" Value="{DynamicResource CorrectGuessKey}" />
@@ -114,5 +118,11 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+
+    <Style x:Key="Separator" TargetType="{x:Type Rectangle}">
+        <Setter Property="Fill" Value="{DynamicResource EmptyLetterBorderBrushKey}" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="Height" Value="1" />
     </Style>
 </ResourceDictionary>

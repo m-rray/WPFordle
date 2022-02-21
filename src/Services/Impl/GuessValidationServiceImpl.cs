@@ -14,7 +14,7 @@ public class GuessValidationServiceImpl : IGuessValidationService
     {
         // TODO: This really need reworking totally, ive had to temp hack some new logic in here as i found a bug
         (LetterModel, LetterState)[] letterResults = new (LetterModel, LetterState)[guess.Letters.Count];
-        
+
         List<LetterModel> matchedGuessLetters = new();
         List<LetterModel> matchedTargetLetters = new();
 
@@ -31,7 +31,7 @@ public class GuessValidationServiceImpl : IGuessValidationService
                 matchedTargetLetters.Add(targetLetter);
             }
         }
-        
+
         // Now get partially correct
         for (int i = 0; i < guess.Letters.Count; i++)
         {
@@ -41,7 +41,8 @@ public class GuessValidationServiceImpl : IGuessValidationService
                 continue;
             }
 
-            LetterModel? partialMatch = target.Letters.Except(matchedTargetLetters).FirstOrDefault(x => x.Character == letter.Character);
+            LetterModel? partialMatch = target.Letters.Except(matchedTargetLetters)
+                .FirstOrDefault(x => x.Character == letter.Character);
             if (partialMatch != null)
             {
                 letterResults[i] = (letter, LetterState.RightLetterWrongPlace);
@@ -68,7 +69,7 @@ public class GuessValidationServiceImpl : IGuessValidationService
         //    for (int j = 0; j < target.Letters.Count; j++)
         //    {
         //        LetterModel targetLetter = target.Letters.ElementAt(j);
-        //        if (letter.Character == targetLetter.Character)
+        //        if (letter.Label == targetLetter.Label)
         //        {
         //            if (i == j)
         //            {

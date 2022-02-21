@@ -18,6 +18,11 @@ public class ThemeServiceImpl : IThemeService
 
     #region Methods
 
+    public IThemeService.Theme GetCurrentTheme()
+    {
+        return this._currentTheme;
+    }
+
     public void SetThemeSettings(bool dark, bool highContrast)
     {
         IThemeService.Theme oldTheme = this._currentTheme;
@@ -37,11 +42,6 @@ public class ThemeServiceImpl : IThemeService
 
         this._currentTheme = newTheme;
         this.ThemeChanged?.Invoke(this, (oldTheme, newTheme));
-    }
-
-    public IThemeService.Theme GetCurrentTheme()
-    {
-        return this._currentTheme;
     }
 
     #endregion

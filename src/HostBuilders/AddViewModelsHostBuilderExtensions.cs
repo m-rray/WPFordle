@@ -13,7 +13,10 @@ public static class AddViewModelsHostBuilderExtensions
         hostBuilder.ConfigureServices(
             services =>
             {
-                services.AddSingleton<MainWindowViewModel>();
+                services.AddScoped<GameViewModel>();
+                services.AddScoped<KeyboardViewModel>();
+                services.AddScoped<SettingsViewModel>();
+                services.AddScoped<NotificationsViewModel>();
             });
 
         return hostBuilder;

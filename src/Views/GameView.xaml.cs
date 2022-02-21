@@ -3,13 +3,13 @@
 using System.Windows.Controls;
 
 /// <summary>
-/// Interaction logic for SettingsView.xaml
+/// Interaction logic for GameView.xaml
 /// </summary>
-public partial class SettingsView : UserControl
+public partial class GameView : UserControl
 {
     #region Constructors
 
-    public SettingsView()
+    public GameView()
     {
         this.InitializeComponent();
     }

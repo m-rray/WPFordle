@@ -1,6 +1,5 @@
 ﻿namespace WPFordle;
 
-using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Messaging;
 using HostBuilders;
 using Microsoft.Extensions.DependencyInjection;
@@ -8,9 +7,7 @@ using Microsoft.Extensions.Hosting;
 using Services;
 using Services.Impl;
 using System;
-using System.Linq;
 using System.Windows;
-using ViewModels;
 using Views;
 
 /// <summary>
@@ -30,13 +27,14 @@ public partial class App : Application
     {
         this._host = Host.CreateDefaultBuilder()
             .ConfigureServices(
-                (host, services) =>
+                (_, services) =>
                 {
                     services.AddSingleton<IThemeService, ThemeServiceImpl>();
                     services.AddSingleton<IMessenger>(_ => WeakReferenceMessenger.Default);
                     services.AddSingleton<IGuessValidationService, GuessValidationServiceImpl>();
-                    services.AddSingleton<IWordService, WordServiceImpl>();
+                    services.AddSingleton<IWordProvider, WordProviderImpl>();
                 })
+            .AddModels()
             .AddViewModels()
             .AddViews()
             .Build();
@@ -46,29 +44,52 @@ public partial class App : Application
 
     #region Methods
 
+    private static Uri GetThemeSource(IThemeService.Theme theme)
+    {
+        return theme switch
+        {
+            IThemeService.Theme.Dark => new Uri("/Themes/dark.xaml", UriKind.Relative),
+            IThemeService.Theme.DarkHighContrast => new Uri("/Themes/darkHighContrast.xaml", UriKind.Relative),
+            IThemeService.Theme.Light => new Uri("/Themes/light.xaml", UriKind.Relative),
+            IThemeService.Theme.LightHighContrast => new Uri("/Themes/lightHighContrast.xaml", UriKind.Relative),
+            _ => throw new ArgumentOutOfRangeException(nameof(theme), theme, null)
+        };
+    }
+
+    protected override void OnExit(ExitEventArgs e)
+    {
+        // Clear the service provider from the viewmodel locator
+        ViewModelLocator.ClearServiceProvider();
+
+        // Stop and dispose of the host
+        this._host.Dispose();
+
+        base.OnExit(e);
+    }
+
     protected override async void OnStartup(StartupEventArgs e)
     {
+        // Start the host
         await this._host.StartAsync();
 
+        // Set the service provider on the viewmodel locator
+        ViewModelLocator.SetServiceProvider(this._host.Services);
+
+        // Load all possible words
+        IWordProvider wordProvider = this._host.Services.GetRequiredService<IWordProvider>();
+        await wordProvider.LoadAsync();
+
+        // Load the theme service and set the current theme
+        // TODO: Load the last saved value from a settings provider
         IThemeService themeService = this._host.Services.GetRequiredService<IThemeService>();
-        themeService.ThemeChanged += this.OnThemeChanged;
+        themeService.ThemeChanged += (_, args) => this.ChangeTheme(args.OldTheme, args.NewTheme);
         this.ChangeTheme(IThemeService.Theme.Dark, themeService.GetCurrentTheme());
 
+        // Create and show our main window.
         this.MainWindow = this._host.Services.GetRequiredService<MainWindow>();
         this.MainWindow.Show();
 
-        IWordService wordService = this._host.Services.GetRequiredService<IWordService>();
-        IGuessValidationService guessValidationService =
-            this._host.Services.GetRequiredService<IGuessValidationService>();
-        MainWindowViewModel mainWindowViewModel = this._host.Services.GetRequiredService<MainWindowViewModel>();
-        await mainWindowViewModel.StartNewGameAsync(guessValidationService, wordService);
-
         base.OnStartup(e);
-    }
-
-    private void OnThemeChanged(object? sender, (IThemeService.Theme? OldTheme, IThemeService.Theme NewTheme) e)
-    {
-        this.ChangeTheme(e.OldTheme, e.NewTheme);
     }
 
     private void ChangeTheme(IThemeService.Theme? oldTheme, IThemeService.Theme newTheme)
@@ -83,30 +104,12 @@ public partial class App : Application
             //this.Resources.MergedDictionaries.Remove(matchingDictionary);
         }
 
-        Uri newThemeSource = this.GetThemeSource(newTheme);
-        this.Resources.MergedDictionaries.Add(new ResourceDictionary
-        {
-            Source = newThemeSource
-        });
-    }
-
-    private Uri GetThemeSource(IThemeService.Theme theme)
-    {
-        return theme switch
-        {
-            IThemeService.Theme.Dark => new Uri("/Themes/dark.xaml", UriKind.Relative),
-            IThemeService.Theme.DarkHighContrast => new Uri("/Themes/darkHighContrast.xaml", UriKind.Relative),
-            IThemeService.Theme.Light => new Uri("/Themes/light.xaml", UriKind.Relative),
-            IThemeService.Theme.LightHighContrast => new Uri("/Themes/lightHighContrast.xaml", UriKind.Relative),
-            _ => throw new ArgumentOutOfRangeException(nameof(theme), theme, null)
-        };
-    }
-
-    protected override void OnExit(ExitEventArgs e)
-    {
-        this._host.Dispose();
-
-        base.OnExit(e);
+        Uri newThemeSource = GetThemeSource(newTheme);
+        this.Resources.MergedDictionaries.Add(
+            new ResourceDictionary
+            {
+                Source = newThemeSource
+            });
     }
 
     #endregion

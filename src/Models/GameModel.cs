@@ -12,7 +12,7 @@ public class GameModel : ObservableModel
     #region Fields
 
     private readonly IGuessValidationService _guessValidationService;
-    private readonly IWordService _wordService;
+    private readonly IWordProvider _wordProvider;
     private int _currentGuessIndex;
     private int _currentLetterIndex;
     private bool _gameOver;
@@ -22,16 +22,16 @@ public class GameModel : ObservableModel
 
     #region Constructors
 
-    public GameModel(WordModel targetWord, IGuessValidationService guessValidationService, IWordService wordService)
+    public GameModel(IGuessValidationService guessValidationService, IWordProvider wordProvider)
     {
         ArgumentNullException.ThrowIfNull(guessValidationService);
-        ArgumentNullException.ThrowIfNull(wordService);
+        ArgumentNullException.ThrowIfNull(wordProvider);
 
         this._guessValidationService = guessValidationService;
-        this._wordService = wordService;
-        this.TargetWord = targetWord;
+        this._wordProvider = wordProvider;
+        this.TargetWord = new WordModel(wordProvider.GetDailyWord());
         this.Guesses = Enumerable.Range(0, Constants.MaximumGuesses)
-            .Select(x => new WordModel(targetWord.Letters.Count))
+            .Select(_ => new WordModel(this.TargetWord.Letters.Count))
             .ToList();
     }
 
@@ -39,63 +39,13 @@ public class GameModel : ObservableModel
 
     #region Properties
 
-    public WordModel TargetWord { get; }
-
     public IReadOnlyCollection<WordModel> Guesses { get; }
+
+    public WordModel TargetWord { get; }
 
     #endregion
 
     #region Methods
-
-    public bool GuessLetter(char letter)
-    {
-        if (this._isCommittingGuess)
-        {
-            return false;
-        }
-
-        if (this._gameOver)
-        {
-            return false;
-        }
-
-        if (this._currentLetterIndex == this.TargetWord.Letters.Count)
-        {
-            return false;
-        }
-
-        WordModel currentGuess = this.Guesses.ElementAt(this._currentGuessIndex);
-        LetterModel currentLetterGuess = currentGuess.Letters.ElementAt(this._currentLetterIndex);
-        currentLetterGuess.Character = letter;
-        this._currentLetterIndex++;
-
-        return true;
-    }
-
-    public bool DeleteLastCharacter()
-    {
-        if (this._isCommittingGuess)
-        {
-            return false;
-        }
-
-        if (this._gameOver)
-        {
-            return false;
-        }
-
-        if (this._currentLetterIndex == 0)
-        {
-            return false;
-        }
-
-        this._currentLetterIndex--;
-        WordModel currentGuess = this.Guesses.ElementAt(this._currentGuessIndex);
-        LetterModel currentLetterGuess = currentGuess.Letters.ElementAt(this._currentLetterIndex);
-        currentLetterGuess.Character = null;
-
-        return true;
-    }
 
     public async Task<GuessResult?> CommitGuess()
     {
@@ -125,7 +75,7 @@ public class GameModel : ObservableModel
 
             WordModel currentGuess = this.Guesses.ElementAt(this._currentGuessIndex);
             string currentWord = string.Join(null, currentGuess.Letters.Select(x => x.Character));
-            bool isRecognizedWord = await this._wordService.IsRecognizedWordAsync(currentWord);
+            bool isRecognizedWord = this._wordProvider.IsRecognizedWord(currentWord);
             if (!isRecognizedWord)
             {
                 return new GuessResult
@@ -161,6 +111,56 @@ public class GameModel : ObservableModel
         {
             this._isCommittingGuess = false;
         }
+    }
+
+    public bool DeleteLastCharacter()
+    {
+        if (this._isCommittingGuess)
+        {
+            return false;
+        }
+
+        if (this._gameOver)
+        {
+            return false;
+        }
+
+        if (this._currentLetterIndex == 0)
+        {
+            return false;
+        }
+
+        this._currentLetterIndex--;
+        WordModel currentGuess = this.Guesses.ElementAt(this._currentGuessIndex);
+        LetterModel currentLetterGuess = currentGuess.Letters.ElementAt(this._currentLetterIndex);
+        currentLetterGuess.Character = null;
+
+        return true;
+    }
+
+    public bool GuessLetter(char letter)
+    {
+        if (this._isCommittingGuess)
+        {
+            return false;
+        }
+
+        if (this._gameOver)
+        {
+            return false;
+        }
+
+        if (this._currentLetterIndex == this.TargetWord.Letters.Count)
+        {
+            return false;
+        }
+
+        WordModel currentGuess = this.Guesses.ElementAt(this._currentGuessIndex);
+        LetterModel currentLetterGuess = currentGuess.Letters.ElementAt(this._currentLetterIndex);
+        currentLetterGuess.Character = letter;
+        this._currentLetterIndex++;
+
+        return true;
     }
 
     #endregion

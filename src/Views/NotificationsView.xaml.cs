@@ -3,13 +3,13 @@
 using System.Windows.Controls;
 
 /// <summary>
-/// Interaction logic for SettingsView.xaml
+/// Interaction logic for NotificationsView.xaml
 /// </summary>
-public partial class SettingsView : UserControl
+public partial class NotificationsView : UserControl
 {
     #region Constructors
 
-    public SettingsView()
+    public NotificationsView()
     {
         this.InitializeComponent();
     }

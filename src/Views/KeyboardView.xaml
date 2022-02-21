@@ -1,0 +1,81 @@
+﻿<UserControl
+    x:Class="WPFordle.Views.KeyboardView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:WPFordle.Views.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="clr-namespace:WPFordle.ViewModels"
+    xmlns:views="clr-namespace:WPFordle.Views"
+    d:DataContext="{d:DesignInstance viewModels:KeyboardViewModel}"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    views:ViewModelLocator.AutoWireViewModel="True"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Themes/styles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <ItemsControl ItemsSource="{Binding Keys}">
+        <ItemsControl.ItemTemplate>
+            <DataTemplate>
+                <ItemsControl ItemsSource="{Binding}">
+                    <ItemsControl.Resources>
+                        <DataTemplate DataType="{x:Type viewModels:LetterKeyViewModel}">
+                            <controls:KeyboardLetterButton
+                                Width="43"
+                                Height="58"
+                                Margin="3,4"
+                                Command="{Binding KeyPressedCommand}"
+                                CommandParameter="{Binding Label}"
+                                Content="{Binding Label}"
+                                Cursor="Hand"
+                                State="{Binding LetterState}" />
+                        </DataTemplate>
+                        <DataTemplate DataType="{x:Type viewModels:EnterKeyViewModel}">
+                            <Button
+                                Width="65"
+                                Height="58"
+                                Margin="3"
+                                Command="{Binding KeyPressedCommand}"
+                                Content="ENTER"
+                                Style="{StaticResource KeyboardKey}" />
+                        </DataTemplate>
+                        <DataTemplate DataType="{x:Type viewModels:DeleteKeyViewModel}">
+                            <Button
+                                Width="65"
+                                Height="58"
+                                Margin="3"
+                                Command="{Binding KeyPressedCommand}"
+                                Style="{StaticResource KeyboardKey}">
+                                <Viewbox
+                                    Width="26"
+                                    Height="26"
+                                    Stretch="Uniform">
+                                    <Canvas Width="24" Height="24">
+                                        <Path
+                                            Data="M19,15.59L17.59,17L14,13.41L10.41,17L9,15.59L12.59,12L9,8.41L10.41,7L14,10.59L17.59,7L19,8.41L15.41,12L19,15.59M22,3A2,2 0 0,1 24,5V19A2,2 0 0,1 22,21H7C6.31,21 5.77,20.64 5.41,20.11L0,12L5.41,3.88C5.77,3.35 6.31,3 7,3H22M22,5H7L2.28,12L7,19H22V5Z"
+                                            Fill="{DynamicResource KeyTextForegroundKey}" />
+                                    </Canvas>
+                                </Viewbox>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.Resources>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <ContentControl Content="{Binding}" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </DataTemplate>
+        </ItemsControl.ItemTemplate>
+    </ItemsControl>
+</UserControl>

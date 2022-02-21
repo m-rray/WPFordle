@@ -58,13 +58,6 @@ public class Letter : Control
 
     #region Methods
 
-    public override void OnApplyTemplate()
-    {
-        this._border = this.GetTemplateChild("PART_Border") as Border;
-        this._scale = this.GetTemplateChild("PART_Scale") as ScaleTransform;
-        base.OnApplyTemplate();
-    }
-
     private static void OnLetterStateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is not Letter letter)
@@ -73,6 +66,13 @@ public class Letter : Control
         }
 
         letter.PlayRevealAnimation();
+    }
+
+    public override void OnApplyTemplate()
+    {
+        this._border = this.GetTemplateChild("PART_Border") as Border;
+        this._scale = this.GetTemplateChild("PART_Scale") as ScaleTransform;
+        base.OnApplyTemplate();
     }
 
     private void PlayRevealAnimation()
@@ -84,8 +84,10 @@ public class Letter : Control
             this._border.BorderThickness = new Thickness(2);
             return;
         }
-        
-        DoubleAnimation heightAnimation = new(0d, new Duration(TimeSpan.FromMilliseconds(Constants.TimeBetweenReveals/2d)));
+
+        DoubleAnimation heightAnimation = new(
+            0d,
+            new Duration(TimeSpan.FromMilliseconds(Constants.TimeBetweenReveals / 2d)));
         heightAnimation.Completed += (sender, args) =>
         {
             this.SetResourceReference(ForegroundProperty, "GuessedTextForegroundKey");
@@ -106,11 +108,13 @@ public class Letter : Control
                     throw new ArgumentOutOfRangeException();
             }
 
-            DoubleAnimation newHeightAnimation = new(1d, new Duration(TimeSpan.FromMilliseconds(Constants.TimeBetweenReveals/2d)));
-            _scale.BeginAnimation(ScaleTransform.ScaleYProperty, newHeightAnimation);
+            DoubleAnimation newHeightAnimation = new(
+                1d,
+                new Duration(TimeSpan.FromMilliseconds(Constants.TimeBetweenReveals / 2d)));
+            this._scale.BeginAnimation(ScaleTransform.ScaleYProperty, newHeightAnimation);
         };
 
-        _scale.BeginAnimation(ScaleTransform.ScaleYProperty, heightAnimation);
+        this._scale.BeginAnimation(ScaleTransform.ScaleYProperty, heightAnimation);
     }
 
     #endregion

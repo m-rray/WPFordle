@@ -37,14 +37,6 @@ public abstract class ObservableViewModel<T> : ObservableObject, IDisposable
 
     #region Methods
 
-    protected virtual void OnModelPropertyChanged(object? sender, PropertyChangedEventArgs e)
-    {
-        if (this._forwardModelPropertyChanges)
-        {
-            this.OnPropertyChanged(e);
-        }
-    }
-
     public void Dispose()
     {
         if (this._disposed)
@@ -54,6 +46,14 @@ public abstract class ObservableViewModel<T> : ObservableObject, IDisposable
 
         this._disposed = true;
         this.Model.PropertyChanged -= this.OnModelPropertyChanged;
+    }
+
+    protected virtual void OnModelPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (this._forwardModelPropertyChanges)
+        {
+            this.OnPropertyChanged(e);
+        }
     }
 
     #endregion

@@ -3,13 +3,13 @@
 using System.Windows.Controls;
 
 /// <summary>
-/// Interaction logic for SettingsView.xaml
+/// Interaction logic for KeyboardView.xaml
 /// </summary>
-public partial class SettingsView : UserControl
+public partial class KeyboardView : UserControl
 {
     #region Constructors
 
-    public SettingsView()
+    public KeyboardView()
     {
         this.InitializeComponent();
     }

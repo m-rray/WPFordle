@@ -4,13 +4,13 @@ public class GuessResult
 {
     #region Properties
 
-    public bool Success { get; init; }
-
-    public bool Validated { get; init; }
+    public WordModel? GuessedWord { get; set; }
 
     public string? Message { get; init; }
 
-    public WordModel? GuessedWord { get; set; }
+    public bool Success { get; init; }
+
+    public bool Validated { get; init; }
 
     #endregion
 }
