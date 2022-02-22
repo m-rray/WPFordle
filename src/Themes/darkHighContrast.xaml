@@ -11,4 +11,5 @@
     <SolidColorBrush x:Key="IncorrectGuessKey" Color="#3a3a3c" />
     <SolidColorBrush x:Key="CardBackgroundKey" Color="#ffffff" />
     <SolidColorBrush x:Key="CardTextForegroundKey" Color="#000000" />
+    <SolidColorBrush x:Key="DialogBackgroundKey" Color="#000000" />
 </ResourceDictionary>

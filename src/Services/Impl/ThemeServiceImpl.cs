@@ -6,7 +6,7 @@ public class ThemeServiceImpl : IThemeService
 {
     #region Fields
 
-    private IThemeService.Theme _currentTheme = IThemeService.Theme.Dark;
+    private IThemeService.Theme _currentTheme = IThemeService.Theme.Light;
 
     #endregion
 

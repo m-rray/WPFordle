@@ -1,0 +1,101 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:WPFordle.Views.Controls"
+    xmlns:themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.AeroLite">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Themes/styles.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+    <Style TargetType="{x:Type controls:Dialog}">
+        <Setter Property="Background" Value="{DynamicResource DialogBackgroundKey}" />
+        <Setter Property="DialogBackground" Value="{DynamicResource WindowBackgroundKey}" />
+        <Setter Property="Foreground" Value="{DynamicResource TextForegroundKey}" />
+        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="Padding" Value="15" />
+        <Setter Property="MaxDialogWidth" Value="440" />
+        <Setter Property="Visibility" Value="Hidden" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type controls:Dialog}">
+                    <Grid HorizontalAlignment="{TemplateBinding HorizontalAlignment}">
+                        <Grid Background="{TemplateBinding Background}" Opacity="0.6" />
+                        <Grid
+                            x:Name="PART_Dialog"
+                            MaxWidth="{TemplateBinding MaxDialogWidth}"
+                            Margin="{TemplateBinding Padding}"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Opacity="0">
+                            <themes:SystemDropShadowChrome CornerRadius="{TemplateBinding CornerRadius}">
+                                <Border Background="{TemplateBinding DialogBackground}" CornerRadius="{TemplateBinding CornerRadius}">
+                                    <DockPanel HorizontalAlignment="Stretch">
+                                        <Button
+                                            x:Name="PART_CloseButton"
+                                            Width="22"
+                                            Height="22"
+                                            Margin="8,8,8,2"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Center"
+                                            DockPanel.Dock="Top"
+                                            Style="{StaticResource CommandButton}">
+                                            <Viewbox Width="22" Height="22">
+                                                <Canvas Width="24" Height="24">
+                                                    <Path Data="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" Fill="{DynamicResource KeyTextForegroundKey}" />
+                                                </Canvas>
+                                            </Viewbox>
+                                        </Button>
+                                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                            <ContentPresenter
+                                                Margin="{TemplateBinding Padding}"
+                                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                Content="{TemplateBinding Content}" />
+                                        </ScrollViewer>
+                                    </DockPanel>
+                                </Border>
+                            </themes:SystemDropShadowChrome>
+                            <!--  <Border  -->
+                            <!--  Background="{TemplateBinding DialogBackground}"  -->
+                            <!--  CacheMode="BitmapCache"  -->
+                            <!--  CornerRadius="{TemplateBinding CornerRadius}">  -->
+                            <!--     <Border.Effect> -->
+                            <!--  <DropShadowEffect  -->
+                            <!--  BlurRadius="50"  -->
+                            <!--  Direction="0"  -->
+                            <!--  Opacity="0.2"  -->
+                            <!--  ShadowDepth="0" />  -->
+                            <!--     </Border.Effect> -->
+                            <!-- </Border> -->
+                            <!-- <Border Background="{TemplateBinding DialogBackground}" CornerRadius="{TemplateBinding CornerRadius}"> -->
+                            <!--     <DockPanel HorizontalAlignment="Stretch"> -->
+                            <!--  <Button  -->
+                            <!--  x:Name="PART_CloseButton"  -->
+                            <!--  Width="22"  -->
+                            <!--  Height="22"  -->
+                            <!--  Margin="8,8,8,2"  -->
+                            <!--  HorizontalAlignment="Right"  -->
+                            <!--  VerticalAlignment="Center"  -->
+                            <!--  DockPanel.Dock="Top"  -->
+                            <!--  Style="{StaticResource CommandButton}">  -->
+                            <!--             <Viewbox Width="22" Height="22"> -->
+                            <!--                 <Canvas Width="24" Height="24"> -->
+                            <!--                     <Path Data="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" Fill="{DynamicResource KeyTextForegroundKey}" /> -->
+                            <!--                 </Canvas> -->
+                            <!--             </Viewbox> -->
+                            <!--         </Button> -->
+                            <!--         <ScrollViewer VerticalScrollBarVisibility="Auto"> -->
+                            <!--  <ContentPresenter  -->
+                            <!--  Margin="{TemplateBinding Padding}"  -->
+                            <!--  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"  -->
+                            <!--  Content="{TemplateBinding Content}" />  -->
+                            <!--         </ScrollViewer> -->
+                            <!--     </DockPanel> -->
+                            <!-- </Border> -->
+                        </Grid>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

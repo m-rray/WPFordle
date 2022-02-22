@@ -1,8 +1,9 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/Themes/Controls/Card.generic.xaml" />
+        <ResourceDictionary Source="/Themes/Controls/Dialog.generic.xaml" />
+        <ResourceDictionary Source="/Themes/Controls/KeyboardLetterButton.generic.xaml" />
         <ResourceDictionary Source="/Themes/Controls/Letter.generic.xaml" />
         <ResourceDictionary Source="/Themes/Controls/Layer.generic.xaml" />
-        <ResourceDictionary Source="/Themes/Controls/KeyboardLetterButton.generic.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

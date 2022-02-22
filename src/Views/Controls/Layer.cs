@@ -1,19 +1,10 @@
 ﻿namespace WPFordle.Views.Controls;
 
-using System;
 using System.Windows;
-using System.Windows.Controls;
 
-public class Layer : ContentControl
+public class Layer : Overlay
 {
     #region Fields
-
-    public static readonly RoutedEvent CloseRequestedEvent =
-        EventManager.RegisterRoutedEvent(
-            nameof(CloseRequested),
-            RoutingStrategy.Bubble,
-            typeof(EventHandler<RoutedEventArgs>),
-            typeof(Layer));
 
     public static readonly DependencyProperty MaxInnerWidthProperty = DependencyProperty.Register(
         nameof(MaxInnerWidth),
@@ -27,8 +18,6 @@ public class Layer : ContentControl
         typeof(Layer),
         new PropertyMetadata());
 
-    private Button? _closeButton;
-
     #endregion
 
     #region Constructors
@@ -38,16 +27,6 @@ public class Layer : ContentControl
         DefaultStyleKeyProperty.OverrideMetadata(
             typeof(Layer),
             new FrameworkPropertyMetadata(typeof(Layer)));
-    }
-
-    #endregion
-
-    #region Events
-
-    public event EventHandler<RoutedEventArgs> CloseRequested
-    {
-        add => this.AddHandler(CloseRequestedEvent, value);
-        remove => this.RemoveHandler(CloseRequestedEvent, value);
     }
 
     #endregion
@@ -66,27 +45,7 @@ public class Layer : ContentControl
         set => this.SetValue(TitleProperty, value);
     }
 
-    #endregion
-
-    #region Methods
-
-    public override void OnApplyTemplate()
-    {
-        if (this._closeButton != null)
-        {
-            this._closeButton.Click -= this.OnCloseButtonClick;
-        }
-
-        this._closeButton = this.GetTemplateChild("PART_CloseButton") as Button;
-        this._closeButton.Click += this.OnCloseButtonClick;
-
-        base.OnApplyTemplate();
-    }
-
-    private void OnCloseButtonClick(object sender, RoutedEventArgs e)
-    {
-        this.RaiseEvent(new RoutedEventArgs(CloseRequestedEvent, this));
-    }
+    protected override FrameworkElement AnimatedElement => this;
 
     #endregion
 }

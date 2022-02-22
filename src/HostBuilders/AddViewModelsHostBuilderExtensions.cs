@@ -17,6 +17,7 @@ public static class AddViewModelsHostBuilderExtensions
                 services.AddScoped<KeyboardViewModel>();
                 services.AddScoped<SettingsViewModel>();
                 services.AddScoped<NotificationsViewModel>();
+                services.AddScoped<StatisticsViewModel>();
             });
 
         return hostBuilder;

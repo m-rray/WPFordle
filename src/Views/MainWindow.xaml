@@ -40,7 +40,7 @@
                     Width="30"
                     Height="30"
                     VerticalAlignment="Center"
-                    Click="OnHelpButtonClick"
+                    Click="ShowHelpLayer"
                     DockPanel.Dock="Right"
                     Style="{StaticResource CommandButton}">
                     <Viewbox
@@ -61,11 +61,29 @@
                     Foreground="{DynamicResource TextForegroundKey}"
                     Text="WPFordle" />
                 <Button
+                    Grid.Column="3"
+                    Width="30"
+                    Height="30"
+                    VerticalAlignment="Center"
+                    Click="ShowStatisticsDialog"
+                    DockPanel.Dock="Right"
+                    Style="{StaticResource CommandButton}">
+                    <Viewbox
+                        Width="22"
+                        Height="22"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+                        <Canvas Width="24" Height="24">
+                            <Path Data="M 16 11 V 3 H 8 v 6 H 2 v 12 h 20 V 11 H 16 Z M 10 5 h 4 v 14 h -4 V 5 Z M 4 11 h 4 v 8 H 4 V 11 Z M 20 19 h -4 v -6 h 4 V 19 Z" Fill="{DynamicResource TextForegroundKey}" />
+                        </Canvas>
+                    </Viewbox>
+                </Button>
+                <Button
                     Grid.Column="4"
                     Width="30"
                     Height="30"
                     VerticalAlignment="Center"
-                    Click="OnSettingsButtonClick"
+                    Click="ShowSettingsLayer"
                     DockPanel.Dock="Right"
                     Style="{StaticResource CommandButton}">
                     <Viewbox
@@ -79,12 +97,10 @@
                     </Viewbox>
                 </Button>
             </Grid>
-
             <Rectangle
                 Grid.Row="1"
                 Margin="5,0"
                 Style="{StaticResource Separator}" />
-
             <Grid Grid.Row="2" Margin="5">
                 <Viewbox
                     HorizontalAlignment="Center"
@@ -95,34 +111,25 @@
                 </Viewbox>
                 <views:NotificationsView HorizontalAlignment="Center" />
             </Grid>
-
             <views:KeyboardView Grid.Row="3" Margin="5" />
         </Grid>
         <controls:Layer
-            x:Name="Settings"
+            x:Name="SettingsLayer"
             Title="SETTINGS"
-            Background="{DynamicResource WindowBackgroundKey}"
-            CloseRequested="OnCloseSettingsButtonClick"
-            MaxInnerWidth="480"
-            Opacity="0"
-            Visibility="Collapsed">
-            <controls:Layer.RenderTransform>
-                <TranslateTransform x:Name="SettingsPosition" Y="50" />
-            </controls:Layer.RenderTransform>
+            CloseRequested="CloseSettingsLayer">
             <views:SettingsView />
         </controls:Layer>
         <controls:Layer
-            x:Name="Help"
+            x:Name="HelpLayer"
             Title="HOW TO PLAY"
-            Background="{DynamicResource WindowBackgroundKey}"
-            CloseRequested="OnCloseHelpButtonClick"
-            MaxInnerWidth="480"
-            Opacity="0"
-            Visibility="Collapsed">
-            <controls:Layer.RenderTransform>
-                <TranslateTransform x:Name="HelpPosition" Y="50" />
-            </controls:Layer.RenderTransform>
-            <views:HowToPlayView x:Name="HowToPlayView" />
+            CloseRequested="CloseHelpLayer">
+            <views:HowToPlayView x:Name="HowToPlayLayerView" />
         </controls:Layer>
+        <controls:Dialog x:Name="HelpDialog" CloseRequested="CloseHelpDialog">
+            <views:HowToPlayView x:Name="HowToPlayDialogView" />
+        </controls:Dialog>
+        <controls:Dialog x:Name="StatisticsDialog" CloseRequested="CloseStatisticsDialog">
+            <views:StatisticsView Width="350" />
+        </controls:Dialog>
     </Grid>
 </Window>

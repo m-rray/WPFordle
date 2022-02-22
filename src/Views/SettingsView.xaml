@@ -26,7 +26,7 @@
             Foreground="{DynamicResource LetterBorderBrushKey}"
             Text="xEsteem@GitHub 2022" />
         <StackPanel>
-            <DockPanel Margin="2,20">
+            <DockPanel Margin="2,0,2,20">
                 <CheckBox
                     VerticalAlignment="Center"
                     DockPanel.Dock="Right"

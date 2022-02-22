@@ -10,7 +10,7 @@
     mc:Ignorable="d">
     <StackPanel Orientation="Vertical">
         <TextBlock
-            Margin="2,20"
+            Margin="2,0,2,20"
             HorizontalAlignment="Left"
             DockPanel.Dock="Bottom"
             FontSize="14"

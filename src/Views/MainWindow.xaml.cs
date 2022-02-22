@@ -2,20 +2,12 @@
 
 using System;
 using System.Windows;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
 
 /// <summary>
 /// Interaction logic for MainWindow.xaml
 /// </summary>
 public partial class MainWindow : Window
 {
-    #region Fields
-
-    private bool _animatingLayer;
-
-    #endregion
-
     #region Constructors
 
     public MainWindow()
@@ -27,110 +19,50 @@ public partial class MainWindow : Window
 
     #region Methods
 
-    private void OnCloseHelpAnimationCompleted(object? sender, EventArgs e)
+    private void CloseHelpLayer(object sender, RoutedEventArgs e)
     {
-        this.Help.Visibility = Visibility.Collapsed;
-        this.HowToPlayView.Reset();
-        this._animatingLayer = false;
+        this.HelpLayer.Hide(() => this.HowToPlayLayerView.Reset());
     }
 
-    private void OnCloseHelpButtonClick(object sender, RoutedEventArgs e)
+    private void CloseSettingsLayer(object sender, RoutedEventArgs e)
     {
-        if (this._animatingLayer)
-        {
-            return;
-        }
-
-        this._animatingLayer = true;
-
-        DoubleAnimation opacityAnimation = new(0d, new Duration(TimeSpan.FromMilliseconds(150)));
-        opacityAnimation.Completed += this.OnCloseHelpAnimationCompleted;
-
-        DoubleAnimation positionAnimation = new(50, new Duration(TimeSpan.FromMilliseconds(100)))
-        {
-            BeginTime = TimeSpan.FromMilliseconds(50)
-        };
-
-        this.Help.BeginAnimation(OpacityProperty, opacityAnimation);
-        this.HelpPosition.BeginAnimation(TranslateTransform.YProperty, positionAnimation);
+        this.SettingsLayer.Hide();
     }
 
-    private void OnCloseSettingsAnimationCompleted(object? sender, EventArgs e)
+    private void ShowHelpLayer(object sender, RoutedEventArgs e)
     {
-        this.Settings.Visibility = Visibility.Collapsed;
-        this._animatingLayer = false;
+        this.HelpLayer.Show(() => this.HowToPlayLayerView.Play());
     }
 
-    private void OnCloseSettingsButtonClick(object sender, RoutedEventArgs e)
+    private void ShowSettingsLayer(object sender, RoutedEventArgs e)
     {
-        if (this._animatingLayer)
-        {
-            return;
-        }
-
-        this._animatingLayer = true;
-
-        DoubleAnimation opacityAnimation = new(0d, new Duration(TimeSpan.FromMilliseconds(150)));
-        opacityAnimation.Completed += this.OnCloseSettingsAnimationCompleted;
-
-        DoubleAnimation positionAnimation = new(50, new Duration(TimeSpan.FromMilliseconds(100)))
-        {
-            BeginTime = TimeSpan.FromMilliseconds(50)
-        };
-
-        this.Settings.BeginAnimation(OpacityProperty, opacityAnimation);
-        this.SettingsPosition.BeginAnimation(TranslateTransform.YProperty, positionAnimation);
+        this.SettingsLayer.Show();
     }
 
-    private void OnHelpButtonClick(object sender, RoutedEventArgs e)
+    private void CloseHelpDialog(object sender, RoutedEventArgs e)
     {
-        if (this._animatingLayer)
-        {
-            return;
-        }
-
-        this._animatingLayer = true;
-
-        this.Help.Visibility = Visibility.Visible;
-
-        DoubleAnimation opacityAnimation = new(1d, new Duration(TimeSpan.FromMilliseconds(200)));
-        opacityAnimation.Completed += this.OnOpenHelpAnimationCompleted;
-
-        DoubleAnimation positionAnimation = new(0, new Duration(TimeSpan.FromMilliseconds(150)));
-
-        this.Help.BeginAnimation(OpacityProperty, opacityAnimation);
-        this.HelpPosition.BeginAnimation(TranslateTransform.YProperty, positionAnimation);
+        this.HelpDialog.Hide(() => this.HowToPlayDialogView.Reset());
     }
 
-    private void OnOpenHelpAnimationCompleted(object? sender, EventArgs e)
+    private void ShowHelpDialog()
     {
-        this.HowToPlayView.Play();
-        this._animatingLayer = false;
+        this.HelpDialog.Show(() => this.HowToPlayDialogView.Play());
     }
 
-    private void OnOpenSettingsAnimationCompleted(object? sender, EventArgs e)
+    private void CloseStatisticsDialog(object sender, RoutedEventArgs e)
     {
-        this._animatingLayer = false;
+        this.StatisticsDialog.Hide();
     }
 
-    private void OnSettingsButtonClick(object sender, RoutedEventArgs e)
+    private void ShowStatisticsDialog(object sender, RoutedEventArgs e)
     {
-        if (this._animatingLayer)
-        {
-            return;
-        }
+        this.StatisticsDialog.Show();
+    }
 
-        this._animatingLayer = true;
-
-        this.Settings.Visibility = Visibility.Visible;
-
-        DoubleAnimation opacityAnimation = new(1d, new Duration(TimeSpan.FromMilliseconds(200)));
-        opacityAnimation.Completed += this.OnOpenSettingsAnimationCompleted;
-
-        DoubleAnimation positionAnimation = new(0, new Duration(TimeSpan.FromMilliseconds(150)));
-
-        this.Settings.BeginAnimation(OpacityProperty, opacityAnimation);
-        this.SettingsPosition.BeginAnimation(TranslateTransform.YProperty, positionAnimation);
+    protected override void OnContentRendered(EventArgs e)
+    {
+        this.ShowHelpDialog();
+        base.OnContentRendered(e);
     }
 
     #endregion
